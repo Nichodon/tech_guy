@@ -1,10 +1,11 @@
 export class WrappedCanvas {
     constructor(wrapper) {
         this.wrapper = wrapper;
-        this.wrapper.className = 'canvas-wrapper';
+        this.wrapper.classList.add('canvas-wrapper');
 
         this.canvas = document.createElement('canvas');
         this.canvas.className = 'wrapped-canvas';
+		this.canvas.style.zIndex = -1;
         this.wrapper.appendChild(this.canvas);
 
         this.context = this.canvas.getContext('2d');

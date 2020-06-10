@@ -201,6 +201,7 @@
 }
 .camstudent {
     border: none;
+    display: flex;
     margin: 0 20px 0 0;
     padding: 0;
 }
@@ -245,7 +246,6 @@
     color: #f00;
 }
 #camvis {
-    background-color: #999;
     height: 100%;
 }
 
