@@ -29,12 +29,12 @@ let selected;
 function setCanvas(c) {
     canvas = c;
     ctx = c.getContext('2d');
-    ctx.imageSmoothingEnabled = false;
+    //ctx.imageSmoothingEnabled = false;
 
     function updateMouse(e, d) {
         let old = { x: mouse.x, y: mouse.y };
-        mouse.x = e.offsetX * window.devicePixelRatio;
-        mouse.y = e.offsetY * window.devicePixelRatio;
+        mouse.x = e.offsetX //* window.devicePixelRatio;
+        mouse.y = e.offsetY //* window.devicePixelRatio;
         if (d && !mouse.down) {
             for (let i = 0; i < objects.length; i++) {
                 if (isInHitbox(objects[i])) {
@@ -90,10 +90,10 @@ function drawImage(object, outline) {
         ctx.strokeStyle = '#ccc';
         ctx.lineWidth = 3;
         ctx.strokeRect(
-            object.x - SCALE * object.image.width / 2 - 5 * window.devicePixelRatio,
-            object.y - SCALE * object.image.height / 2 - 5 * window.devicePixelRatio,
-            SCALE * object.image.width + 10 * window.devicePixelRatio,
-            SCALE * object.image.height + 10 * window.devicePixelRatio);
+            object.x - SCALE * object.image.width / 2 - 5 ,//* window.devicePixelRatio,
+            object.y - SCALE * object.image.height / 2 - 5 ,//* window.devicePixelRatio,
+            SCALE * object.image.width + 10 ,//* window.devicePixelRatio,
+            SCALE * object.image.height + 10 );//* window.devicePixelRatio);
     }
 }
 

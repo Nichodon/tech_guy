@@ -299,7 +299,7 @@
             <div id="office" class="game-screen">
 
                 <div id="envpanel" class="panel left-panel">
-                    <div id="envvis" class="outlined">insert drag and drop backpack desk here</div>
+                    <div id="envvis" class="outlined"></div>
                 </div>
 
                 <button class="toggle-panel-btn">&gt;</button>
@@ -369,6 +369,9 @@
             import {getWorkerSpriteMaker, param} from '../../centralized.js';
             import {Directory} from './directory.js';
             import {Dialogue} from '../sean/dialogue.js';
+			
+			import * as DESK from '../../env/desk/desk.js';
+			import {WrappedCanvas} from '../sean/canvas-stuff.js';
 
             async function intro(showUI) {
                 const introData = fetch('./intro-dialogue.json').then(r => r.json());
@@ -427,6 +430,7 @@
                 document.getElementById('s-menu').style.display = 'flex';
             }
             function switchScreen(id) {
+				updateSizes();
                 document.getElementById(id).style.display = 'flex';
                 document.getElementById(id === 'game' ? 'office' : 'game').style.display = 'none';
             }
@@ -443,8 +447,32 @@
             let school;
             let pictureCache;
             let directoryList = new Directory(document.getElementById('list'));
+			
+			let deskWrapCan = new WrappedCanvas(document.getElementById('envvis'));
 
             async function dewit() {
+				
+				await DESK.loadImages();
+				
+				DESK.objects.push({
+                    image: DESK.images.smoker,
+                    x: 100 * window.devicePixelRatio,
+                    y: 100 * window.devicePixelRatio
+                });
+                DESK.objects.push({
+                    image: DESK.images.smoker,
+                    x: 150 * window.devicePixelRatio,
+                    y: 100 * window.devicePixelRatio
+                });
+                DESK.objects.push({
+                    image: DESK.images.smoker,
+                    x: 150 * window.devicePixelRatio,
+                    y: 100 * window.devicePixelRatio
+                });//DEMO
+				
+				DESK.setCanvas(deskWrapCan.canvas);
+				gameLoop();
+				
                 school = await SCHOOL.generateSchool();
                 SCHEDULE.generateSchedule(school);
 
@@ -492,12 +520,6 @@
                 }
             };
 
-            // TODO: Breaks if the user resizes while on the office screens
-            window.addEventListener('resize', async () => {
-                await directoryList.resize();
-                directoryList.updateScroll();
-            });
-
             switchScreen('game');
             changeMenu('unmenu');
             displaySchedule();
@@ -514,6 +536,7 @@
 
             function showUI() {
                 document.body.classList.remove('intro-mode');
+				
                 return Promise.all([
                     directoryList.resize()
                         .then(() => directoryList.updateScroll()),
@@ -534,6 +557,23 @@
                 }
             }).then(data => {
                 // Do something with whatever the user put for the name
+            });
+			
+			function gameLoop() {
+				DESK.draw();
+				window.requestAnimationFrame(gameLoop);
+			}
+			
+			async function updateSizes() {
+                await directoryList.resize();
+                directoryList.updateScroll();
+				
+				await deskWrapCan.resize();
+			}
+
+            // TODO: Breaks if the user resizes while on the office screens
+            window.addEventListener('resize', async () => {
+				updateSizes();
             });
         </script>
     </body>

@@ -23,6 +23,7 @@ export class WrappedCanvas {
             this.dpr = dpr;
             this.canvas.width = this.width * dpr;
             this.canvas.height = this.height * dpr;
+			this.context.imageSmoothingEnabled = false;
             this.context.scale(dpr, dpr);
         }
     }
