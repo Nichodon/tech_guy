@@ -5,6 +5,14 @@
 @import url('../sean/intro.css');
 @import url('../sean/principal-demo.css');
 
+*:not(canvas):not(button) {
+	pointer-events: none;
+}
+canvas,
+button {
+	pointer-events: auto;
+} /* i know this is bad practice but at this point idc */
+
 .modal {
     background-color: #000;
     display: flex;
